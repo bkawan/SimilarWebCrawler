@@ -10,6 +10,7 @@ from scrapy.xlib.pydispatch import dispatcher
 
 import re
 
+
 class SimilarwebSpider(scrapy.Spider):
     name = "similarweb"
     allowed_domains = ["similarweb.com"]
@@ -26,7 +27,6 @@ class SimilarwebSpider(scrapy.Spider):
     def spider_closed(self, spider):
         self.driver.close()
 
-
     def parse(self, response):
         # self.driver.get(response.url)
         # response = TextResponse(url=response.url, body=self.driver.page_source, encoding='utf-8')
@@ -36,7 +36,7 @@ class SimilarwebSpider(scrapy.Spider):
 
         item = SimilarwebscrapperItem()
         item['Domain'] = response.xpath("//span[@class='stickyHeader-nameText']/text()").extract()
-        item['Description'] =response.xpath("//div[@class='analysis-descriptionText']/text()").extract()
+        item['Description'] = response.xpath("//div[@class='analysis-descriptionText']/text()").extract()
         similar_sites_elements = response.xpath("//section[@class='similarSitesSection']/ul/li")
         similar_sites_list = []
         for site in similar_sites_elements:
@@ -49,39 +49,97 @@ class SimilarwebSpider(scrapy.Spider):
 
         ########### Rank    #################
 
-
         ranking_items_elements = response.xpath("//div[@class='rankingItems']")
-
         global_rank_value = ranking_items_elements.xpath("div[1]/div/div[2]/span/text()").extract()
-
         country_rank_country_name = ranking_items_elements.xpath("div[2]/div/div[1]/a/text()").extract()
-
         country_rank_country_value = ranking_items_elements.xpath("div[2]/div/div[2]/span/text()").extract()
-
         category_rank_name = ranking_items_elements.xpath("div[3]/div/div[1]/a[1]/text()").extract()
         category_rank_value = ranking_items_elements.xpath("div[3]/div/div[2]/span/text()").extract()
-
         category_main_category = str(category_rank_name[0]).split(">")[0]
         category_sub_category = str(category_rank_name[0]).split(">")[1]
+        print("******************* Ranks ************************")
 
-        print("**** Ranks *******")
-        print (global_rank_value, country_rank_country_name, country_rank_country_value,
-               category_main_category, category_sub_category, category_rank_value)
+        rank_value_keys = ['Global_Rank', 'Country_Rank', 'Category_Rank']
+        rank_value_values = [
+            {'Rank': str(global_rank_value[0])},
+            {'Country': str(country_rank_country_name[0]), 'Rank': str(country_rank_country_value[0])},
+            {'Main_Category': category_main_category,
+             'Sub_Category': category_sub_category,
+             'Rank': str(category_rank_value[0])
+             },
+        ]
+        rank_value = dict(zip(rank_value_keys,rank_value_values))
+        item['Ranks'] = rank_value
+        print(item['Ranks'])
 
-        # ** ** Ranks ** ** ** *
-        # ([u'1,359'], [u'United States'], [u'300'], 'Career and Education ', ' Jobs and Employment', [u'8'])
+        ########### Audience Interests and Topics #########
 
-        rank_key = "Ranks"
-        # rank_value1 = dict(zip)
+        print("******************* Audience Interests and Topics ************************")
+
+        aud_interests_elements = response.xpath("//div[@data-waypoint='alsoVisited']")
+        categories = response.xpath("//a[@class='audienceCategories-itemLink']/text()").extract()
+        main_category = str(categories[0]).split(">")[0]
+        sub_category = str(categories[0]).split(">")[1]
+        also_visited_webistes_element = aud_interests_elements.xpath("div[2]/section[2]/div[1]/div")
+        also_visited_webistes_list = []
+        also_visited_websites_total = aud_interests_elements.xpath("div[2]/section[2]/div[2]/button/text()").extract()
+        also_visited_websites_total = self.number_only(also_visited_websites_total[0])
+        for website in also_visited_webistes_element:
+            also_visited_webistes_list.append(str(website.xpath("div/a[1]/text()").extract()[0]))
+
+        topic_list = [] # can be delete
+        topic_list_dict = []
+        for topic in response.xpath("//ul[@class='topics-list js-cloudContainer']/li/text()").extract():
+            topic_list.append(topic) # can be delete
+            topic_dict = {}
+            topic_dict['Topic_Name'] = str(topic)
+            topic_list_dict.append(topic_dict)
+        item['Topics'] = topic_list_dict
+        print("*******************  Topics ************************")
+        print(topic_list_dict)
+        print("****************************************************")
+        also_visited_webistes_values = {'Domains': [also_visited_webistes_list],
+                                        'Total': also_visited_websites_total}
+        item['AlsoVisited_Websites'] = also_visited_webistes_values
+        print item['AlsoVisited_Websites']
+        print(main_category, sub_category, also_visited_webistes_list, topic_list, also_visited_websites_total)#can be delete
+
+        print ("************************** Engagement *******************************")
+
+        overview_elements = response.xpath("//div[@data-waypoint='overview']")
+        # overview1_engagement_title = overview_elements.xpath("div[2]/div[2]/h3/text()").extract()
+
+        engagement_keys = []
+        engagement_values = []
+
+        for engagement in overview_elements.xpath("div[2]/div[2]/div/div"):
+            key = engagement.xpath("div/span[1]/text()").extract()
+            value = engagement.xpath("div/span[2]/text()").extract()
+            if key:
+                engagement_keys.append(str(key[0]))
+            if value:
+                if "%" in str(value[0]):
+                    value = self.percent_to_float(str(value[0]))
+                    engagement_values.append(value)
+                elif "M" in str(value[0]):
+                    value = self.million_to_number(value[0])
+                    engagement_values.append(value)
+                else:
+                    engagement_values.append(str(value[0]))
+
+        print (engagement_keys, engagement_values)
+        item['Engagement'] = dict(zip(engagement_keys,engagement_values))
+        print(item['Engagement'])
 
 
+        print("*******************")
 
 
         traffic_source_chart_elements = response.xpath("//ul[@class='trafficSourcesChart-list']/li")
         # 1 - Direct
         tf1_direct_name = traffic_source_chart_elements[0].xpath("div[2]/div/span/text()").extract()
         tf1_direct_key = "Percent"
-        tf1_direct_value  = traffic_source_chart_elements[0].xpath("div[1]/div/div/text()").extract()
+        tf1_direct_value = traffic_source_chart_elements[0].xpath("div[1]/div/div/text()").extract()
 
         # 2- Referrals
         tf2_referrals_name = traffic_source_chart_elements[1].xpath("div[2]/div/a/text()").extract()
@@ -93,7 +151,6 @@ class SimilarwebSpider(scrapy.Spider):
         tf3_search_key = "Percent"
         tf3_search_value = traffic_source_chart_elements[2].xpath("div[1]/div/div/text()").extract()
 
-
         # 4- Social
         tf4_social_name = traffic_source_chart_elements[3].xpath("div[2]/div/a/text()").extract()
         tf4_social_key = "Percent"
@@ -104,7 +161,6 @@ class SimilarwebSpider(scrapy.Spider):
         tf5_mail_keys = "Percent"
         tf5_mail_value = traffic_source_chart_elements[4].xpath("div[1]/div/div/text()").extract()
 
-
         # 3-
         tf6_display_name = traffic_source_chart_elements[5].xpath("div[2]/div/a/text()").extract()
         tf6_display_key = "Percent"
@@ -112,7 +168,7 @@ class SimilarwebSpider(scrapy.Spider):
 
         print("************************")
 
-        print(tf1_direct_name,tf1_direct_value)
+        print(tf1_direct_name, tf1_direct_value)
         print(tf2_referrals_name, tf2_referrals_value)
         print(tf3_search_name, tf3_search_value)
         print(tf4_social_name, tf4_social_value)
@@ -126,7 +182,6 @@ class SimilarwebSpider(scrapy.Spider):
         ########### Top Referring Sites: ################
         website_block_title_element = response.xpath("//h4[@class='websitePage-blocktitle']/text()").extract()
 
-
         top_referral_block_title = website_block_title_element[0]
         top_reffering_sites = []
         top_refering_sites_total = refferals_elements.xpath("div[2]/section/div[1]/div[3]/button/text()").extract()
@@ -137,7 +192,7 @@ class SimilarwebSpider(scrapy.Spider):
             top_reffering_sites.append(site.xpath("div/a[1]/text()").extract())
 
         print("******************")
-        print (top_referral_block_title) ## Referring Sites
+        print (top_referral_block_title)  ## Referring Sites
         print(top_reffering_sites)
         print(top_refering_sites_total)
         print("******* Top Destionation sites***********")
@@ -159,7 +214,6 @@ class SimilarwebSpider(scrapy.Spider):
         print(top_destination_sites_total)
         print("****************")
 
-
         ################ Top Destination Sites ###############
 
         ################ Display Advertising ##################
@@ -174,7 +228,7 @@ class SimilarwebSpider(scrapy.Spider):
 
         display_publisher_sites_element = display_advert_block_element.xpath("div[2]/div[2]/div[1]")
 
-        display_publisher_sites_list =[]
+        display_publisher_sites_list = []
         display_publisher_total = display_advert_block_element.xpath("div[2]/div[2]/div[2]/button/text()").extract()
         display_publisher_total = self.number_only(display_publisher_total[0])
 
@@ -187,12 +241,10 @@ class SimilarwebSpider(scrapy.Spider):
         print(display_main_title)
         print("*****************")
 
-
         print(display_publisher_title)
         print(display_publisher_sites_list)
         print(display_publisher_total)
         print("*****************")
-
 
         ##################    TOP Ad Network   ############################
         display_network_title = display_advert_block_element.xpath("div[2]/div[3]/div[1]/h3/text()").extract()
@@ -202,16 +254,13 @@ class SimilarwebSpider(scrapy.Spider):
         print(display_network_title_elements)
         print("***********")
 
-
         display_network_title_list = []
         for title in display_network_title_elements:
             display_network_title.append(title.xpath("span/text()").extract())
 
-
         print(display_network_title)
         print(display_network_title_list)
         print("******************")
-
 
         ##################    TOP Ad Network   ############################
 
@@ -221,7 +270,7 @@ class SimilarwebSpider(scrapy.Spider):
 
         ###################### Search ########################
 
-        search_pie= response.xpath("//div[@class='searchPie']")
+        search_pie = response.xpath("//div[@class='searchPie']")
 
         tf3_search_type1_key = search_pie.xpath("div[1]/span[2]/text()").extract()
         tf3_search_type1_value = search_pie.xpath("div[1]/span[1]/text()").extract()
@@ -229,12 +278,10 @@ class SimilarwebSpider(scrapy.Spider):
         tf3_search_type2_key = search_pie.xpath("div[3]/span[2]/text()").extract()
         tf3_search_type2_value = search_pie.xpath("div[3]/span[1]/text()").extract()
 
-        print(tf3_search_type1_key,tf3_search_type1_value)
-        print(tf3_search_type2_key,tf3_search_type2_value)
-
+        print(tf3_search_type1_key, tf3_search_type1_value)
+        print(tf3_search_type2_key, tf3_search_type2_value)
 
         search_keywords = response.xpath("//div[@class='searchKeywords']")
-
 
         search_keywords_type1_key = search_keywords.xpath("div[1]/div[1]/h4/text()").extract()
 
@@ -258,15 +305,15 @@ class SimilarwebSpider(scrapy.Spider):
         for keyword in search_keywords_type2_elements:
             search_keywords_type2_value.append(keyword.xpath("span[2]/span/text()").extract())
 
-        print(search_keywords_type1_key,search_keywords_type1_value)
-        print(search_keywords_type2_key,search_keywords_type2_value)
-        print(search_keywords_type1_total,search_keywords_type2_total)
+        print(search_keywords_type1_key, search_keywords_type1_value)
+        print(search_keywords_type2_key, search_keywords_type2_value)
+        print(search_keywords_type1_total, search_keywords_type2_total)
 
         ###################### Search ########################
         ######### Social #############################
 
         social_keys = []
-        social_values =[]
+        social_values = []
 
         tf2_social_elements = response.xpath("//ul[@class='socialList']/li")
 
@@ -276,11 +323,11 @@ class SimilarwebSpider(scrapy.Spider):
             social_keys.append(name)
             social_values.append(value)
 
-        print(social_keys,social_values)
+        print(social_keys, social_values)
 
         ######### Social #############################
 
-        date= "/html/body/div[3]/div/div/div[4]/div[2]/div[1]/div[1]/div/div[2]/div[1]/div/svg/g[8]/text/tspan[1]/text()"
+        date = "/html/body/div[3]/div/div/div[4]/div[2]/div[1]/div[1]/div/div[2]/div[1]/div/svg/g[8]/text/tspan[1]/text()"
         visits = "/html/body/div[3]/div/div/div[4]/div[2]/div[1]/div[1]/div/div[2]/div[1]/div/svg/g[8]/text/tspan[3]/text()"
         overview_elements = response.xpath("//div[@data-waypoint='overview']")
 
@@ -288,28 +335,15 @@ class SimilarwebSpider(scrapy.Spider):
         visits = response.xpath(visits).extract()
         print(">>>>>>>>>>>>>>>>>>>")
 
-        print(date,visits)
+        print(date, visits)
         print(">>>>>>>>>>>>>>>>>>>")
 
 
-
-        overview1_engagement_title = overview_elements.xpath("div[2]/div[2]/h3/text()").extract()
-
-        overview1_engagement_keys = []
-        overview1_engagement_values = []
-
-        for engagement in overview_elements.xpath("div[2]/div[2]/div/div"):
-            overview1_engagement_keys.append(engagement.xpath("div/span[1]/text()").extract())
-            overview1_engagement_values.append(engagement.xpath("div/span[2]/text()").extract())
-
-        print (overview1_engagement_keys,overview1_engagement_values)
-        print("*******************")
-
         "/html/body/div[3]/div/div/div[4]/div[3]/div[2]/div[2]/article/div/div"
         "/html/body/div[3]/div/div/div[4]/div[3]/div[2]/div[2]/article/div/div/div[6]/button"
-        traffic_countries_keys= []
-        traffic_countries_values =[]
-        traffic_countries_total =""
+        traffic_countries_keys = []
+        traffic_countries_values = []
+        traffic_countries_total = ""
         country = dict()
 
         for countries in response.xpath("//div[@id='geo-countries-accordion']/div"):
@@ -317,18 +351,17 @@ class SimilarwebSpider(scrapy.Spider):
             traffic_countries_values.append(countries.xpath("div/span/span/text()").extract())
             traffic_countries_total = countries.xpath("button/text()").extract()
         traffic_countries_total = self.number_only(traffic_countries_total[0])
-        print("Total",traffic_countries_total)
-
+        print("Total", traffic_countries_total)
 
         for countries in response.xpath("//div[@id='geo-countries-accordion']/div"):
-            country[countries.xpath("div/span/a/text()").extract_first()] =countries.xpath("div/span/span/text()").extract_first()
+            country[countries.xpath("div/span/a/text()").extract_first()] = countries.xpath(
+                "div/span/span/text()").extract_first()
 
         dict1 = dict()
         print("________")
         dict1['country'] = country
         print (dict1)
         print("________")
-
 
         ############## Website content #############
 
@@ -344,7 +377,8 @@ class SimilarwebSpider(scrapy.Spider):
             website_subdomain_share_values.append(subdomain.xpath("span[2]/span[2]/text()").extract())
 
         print("&&&&&&&&&&&&&&&&")
-        print(website_content_subdomains,website_content_subdomain_value,website_subdomain_names,website_subdomain_share_values)
+        print(website_content_subdomains, website_content_subdomain_value, website_subdomain_names,
+              website_subdomain_share_values)
 
         website_content_folders = "Folders"
         website_content_folders_value = website_content_elements.xpath("div[3]/div[4]/span[1]/text()").extract()
@@ -356,36 +390,7 @@ class SimilarwebSpider(scrapy.Spider):
             website_folder_share_values.append(folder.xpath("span[2]/span[2]/text()").extract())
 
         print ("********************")
-        print(website_content_folders,website_content_folders_value,website_folder_names, website_folder_share_values)
-
-
-
-        ########### Audience Interests #########
-
-        aud_interests_elements = response.xpath("//div[@data-waypoint='alsoVisited']")
-        categories = response.xpath("//a[@class='audienceCategories-itemLink']/text()").extract()
-
-        main_category = str(categories[0]).split(">")[0]
-        sub_category = str(categories[0]).split(">")[1]
-
-        also_visited_webistes_element = aud_interests_elements.xpath("div[2]/section[2]/div[1]/div")
-        also_visited_webistes_list = []
-        also_visited_websites_total = aud_interests_elements.xpath("div[2]/section[2]/div[2]/button/text()").extract()
-        also_visited_websites_total = self.number_only(also_visited_websites_total[0])
-        for website in also_visited_webistes_element:
-            also_visited_webistes_list.append(website.xpath("div/a[1]/text()").extract())
-
-        topic_list = []
-        for topic in response.xpath("//ul[@class='topics-list js-cloudContainer']/li/text()").extract():
-            topic_list.append(topic)
-        print("*********")
-        print(main_category,sub_category,also_visited_webistes_list,topic_list,also_visited_websites_total)
-        print("**********")
-
-
-
-        print("***********")
-
+        print(website_content_folders, website_content_folders_value, website_folder_names, website_folder_share_values)
 
 
 
@@ -402,7 +407,7 @@ class SimilarwebSpider(scrapy.Spider):
             mobile_apps_href.append(response.urljoin(href[0]))
 
         item['Related_Mobile_Apps'] = mobile_apps_list
-        print (mobile_apps_list,mobile_apps_href)
+        print (mobile_apps_list, mobile_apps_href)
 
         #########  Mobile Apps #############################
 
@@ -410,10 +415,11 @@ class SimilarwebSpider(scrapy.Spider):
 
         yield item
 
+    def number_only(self, string):
+        return int(re.sub("\D", "", string))
 
-    def number_only(self,string):
-        return re.sub("\D", "", string)
+    def percent_to_float(self,string):
+        return float(string.strip('%')) / 100
 
-
-
-
+    def million_to_number(self,string):
+        return float(string.strip("M")) *1000000
