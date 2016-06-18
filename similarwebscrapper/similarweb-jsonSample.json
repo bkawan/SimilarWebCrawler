@@ -1,0 +1,491 @@
+{
+  "SimilarWebURL": "https://www.similarweb.com/website/monster.com", 
+  "Domain": "monster.com", 
+  "Description": "Monster is your source for jobs and career opportunities. Search for jobs, read career advice from Monster's job experts, and find hiring and recruiting advice.", 
+  "Ranks": {
+    "Global_Rank": {
+      "Rank": 1393
+    }, 
+    "Country_Rank": {
+      "Country": "United States", 
+      "Rank": 300
+    }, 
+    "Category_Rank": {
+      "Main_Category": "Career and Education", 
+      "Sub_Category": "Jobs and Employment", 
+      "Rank": 9
+    }
+  }, 
+  "Engagement": {
+    "Date": "04/2016", 
+    "Total_Visits": 32200000, 
+    "Visits" : [
+      {
+        "Date":"2015-11-01",
+        "Visits":34232112
+      },
+      {
+        "Date":"2015-11-01",
+        "Visits":34232112
+      }
+    ],
+    "Avg_Time_On_Page": "00:03:36", 
+    "Avg_Page_Views": 4.15, 
+    "Bounce_Rate": 0.5436
+  }, 
+  "Traffic_By_Countries": [
+    {
+      "Country": "United States", 
+      "Percent": 0.7963
+    }, 
+    {
+      "Country": "India", 
+      "Percent": 0.0461
+    }, 
+    {
+      "Country": "Canada", 
+      "Percent": 0.0153
+    }, 
+    {
+      "Country": "United Kingdom", 
+      "Percent": 0.0143
+    }, 
+    {
+      "Country": "Philippines", 
+      "Percent": 0.0105
+    }
+  ], 
+  "Traffic_Sources": {
+    "Direct": {
+      "Percent": 0.3261
+    }, 
+    "Referrals": {
+      "Percent": 0.1837, 
+      "Top_Referring": {
+        "Domains": [
+          {"Domain" : "Indeed.com", "Percent" : 0.3221}, 
+          {"Domain" : "Login.usajobs.gov", "Percent" : 0.3221}
+        ], 
+        "Total": 2023
+      }, 
+      "Top_Destination": {
+        "Domains": [
+          {"Domain" : "Indeed.com", "Percent" : 0.3221}, 
+          {"Domain" : "Login.usajobs.gov", "Percent" : 0.3221}
+        ], 
+        "Total": 1982
+      }
+    }, 
+    "Search": {
+      "Percent": 0.451, 
+      "Organic": {
+        "Percent": 0.9816, 
+        "Keywords": [
+          "monster", 
+          "cover letter", 
+          "monster jobs", 
+          "resignation letter", 
+          "monster.com"
+        ], 
+        "Total": 23037
+      }, 
+      "Paid": {
+        "Percent": 0.0184, 
+        "Keywords": [
+          "monster", 
+          "monster jobs", 
+          "monster.com", 
+          "jobs", 
+          "job search"
+        ], 
+        "Total": 79
+      }
+    }, 
+    "Social": {
+      "Percent": 0.0132, 
+      "Domains": [
+        {
+          "Domain": "Facebook", 
+          "Percent": 0.3198
+        }, 
+        {
+          "Domain": "Linkedin", 
+          "Percent": 0.2669
+        }, 
+        {
+          "Domain": "Glassdoor", 
+          "Percent": 0.1391
+        }, 
+        {
+          "Domain": "Youtube", 
+          "Percent": 0.1073
+        }, 
+        {
+          "Domain": "Twitter", 
+          "Percent": 0.0755
+        }
+      ]
+    }, 
+    "Mail": {
+      "Percent": 0.0247
+    }, 
+    "Display_Advertising": {
+      "Percent": 0.0013, 
+      "Top_Publishers": {
+        "Domains": [
+          "Msn.com", 
+          "Moster.com", 
+          "Wikiorgcharts.com", 
+          "Jobgenie.ca", 
+          "Google.com"
+        ], 
+        "Total": 78
+      }, 
+      "Top_Ad_Networks": [
+        {
+          "Domain": "Google Display Network", 
+          "Percent": 0.2978
+        }, 
+        {
+          "Domain": "Taboola", 
+          "Percent": 0.2065
+        }, 
+        {
+          "Domain": "Outbrain", 
+          "Percent": 0.2064
+        }, 
+        {
+          "Domain": "Pure Leads", 
+          "Percent": 0.068
+        }, 
+        {
+          "Domain": "Adcash", 
+          "Percent": 0.0623
+        }, 
+        {
+          "Domain": "Other", 
+          "Percent": 0.159
+        }
+      ]
+    }
+  }, 
+  "Audience_Interests": [
+    {
+      "Main_Category": "Career and Education", 
+      "Sub_Category": "Jobs and Employment", 
+      "Percent": 0.8015
+    }
+  ], 
+  "Also_Visited_Websites": {
+    "Domains": [
+      "Careerbuilder.com", 
+      "Ziprecruiter.com", 
+      "Dice.com", 
+      "Indeed.com", 
+      "Employer.dice.com"
+    ], 
+    "Total": 2154
+  }, 
+  "Topics": [
+    {
+      "Topic_Name": "jobs", 
+      "Data_Weight": 80.0
+    }, 
+    {
+      "Topic_Name": "job", 
+      "Data_Weight": 79.2547
+    }, 
+    {
+      "Topic_Name": "career", 
+      "Data_Weight": 66.9902
+    }, 
+    {
+      "Topic_Name": "job search", 
+      "Data_Weight": 64.5909
+    }, 
+    {
+      "Topic_Name": "job search engines", 
+      "Data_Weight": 62.7018
+    }, 
+    {
+      "Topic_Name": "job boards", 
+      "Data_Weight": 59.2269
+    }, 
+    {
+      "Topic_Name": "job hunt", 
+      "Data_Weight": 58.5617
+    }, 
+    {
+      "Topic_Name": "career planning", 
+      "Data_Weight": 58.3412
+    }, 
+    {
+      "Topic_Name": "employment", 
+      "Data_Weight": 48.4562
+    }, 
+    {
+      "Topic_Name": "career resources", 
+      "Data_Weight": 43.2183
+    }, 
+    {
+      "Topic_Name": "international jobs", 
+      "Data_Weight": 43.2183
+    }, 
+    {
+      "Topic_Name": "dice", 
+      "Data_Weight": 42.1449
+    }, 
+    {
+      "Topic_Name": "boards", 
+      "Data_Weight": 39.4517
+    }, 
+    {
+      "Topic_Name": "post", 
+      "Data_Weight": 39.4517
+    }, 
+    {
+      "Topic_Name": "job seeker", 
+      "Data_Weight": 39.4517
+    }, 
+    {
+      "Topic_Name": "job postings", 
+      "Data_Weight": 39.4517
+    }, 
+    {
+      "Topic_Name": "job posting", 
+      "Data_Weight": 39.4517
+    }, 
+    {
+      "Topic_Name": "search", 
+      "Data_Weight": 36.5378
+    }, 
+    {
+      "Topic_Name": "job resources", 
+      "Data_Weight": 34.7688
+    }, 
+    {
+      "Topic_Name": "search engine", 
+      "Data_Weight": 33.1802
+    }, 
+    {
+      "Topic_Name": "it jobs", 
+      "Data_Weight": 32.9711
+    }, 
+    {
+      "Topic_Name": "job search engine", 
+      "Data_Weight": 31.2507
+    }, 
+    {
+      "Topic_Name": "login", 
+      "Data_Weight": 26.2507
+    }, 
+    {
+      "Topic_Name": "employer", 
+      "Data_Weight": 26.2507
+    }, 
+    {
+      "Topic_Name": "home", 
+      "Data_Weight": 26.2507
+    }, 
+    {
+      "Topic_Name": "careers", 
+      "Data_Weight": 21.7844
+    }, 
+    {
+      "Topic_Name": "salaries", 
+      "Data_Weight": 20.7812
+    }, 
+    {
+      "Topic_Name": "salary", 
+      "Data_Weight": 20.7812
+    }, 
+    {
+      "Topic_Name": "network", 
+      "Data_Weight": 18.9317
+    }, 
+    {
+      "Topic_Name": "resume", 
+      "Data_Weight": 18.9317
+    }, 
+    {
+      "Topic_Name": "jobsearch", 
+      "Data_Weight": 18.9317
+    }, 
+    {
+      "Topic_Name": "employment search", 
+      "Data_Weight": 18.8645
+    }, 
+    {
+      "Topic_Name": "job listings", 
+      "Data_Weight": 17.6966
+    }, 
+    {
+      "Topic_Name": "reviews", 
+      "Data_Weight": 17.6966
+    }, 
+    {
+      "Topic_Name": "company", 
+      "Data_Weight": 17.6966
+    }, 
+    {
+      "Topic_Name": "career advice", 
+      "Data_Weight": 17.6966
+    }, 
+    {
+      "Topic_Name": "school", 
+      "Data_Weight": 16.4285
+    }, 
+    {
+      "Topic_Name": "graphic", 
+      "Data_Weight": 16.4285
+    }, 
+    {
+      "Topic_Name": "students", 
+      "Data_Weight": 16.4285
+    }, 
+    {
+      "Topic_Name": "industry", 
+      "Data_Weight": 16.4285
+    }, 
+    {
+      "Topic_Name": "state", 
+      "Data_Weight": 16.4285
+    }, 
+    {
+      "Topic_Name": "university", 
+      "Data_Weight": 16.4285
+    }, 
+    {
+      "Topic_Name": "ferris", 
+      "Data_Weight": 16.4285
+    }, 
+    {
+      "Topic_Name": "technology", 
+      "Data_Weight": 16.4285
+    }, 
+    {
+      "Topic_Name": "imaging", 
+      "Data_Weight": 16.4285
+    }, 
+    {
+      "Topic_Name": "printing", 
+      "Data_Weight": 16.4285
+    }, 
+    {
+      "Topic_Name": "ohio", 
+      "Data_Weight": 15.5688
+    }, 
+    {
+      "Topic_Name": "benefits", 
+      "Data_Weight": 15.5688
+    }, 
+    {
+      "Topic_Name": "freelance jobs", 
+      "Data_Weight": 15.3
+    }, 
+    {
+      "Topic_Name": "ratings", 
+      "Data_Weight": 10.8945
+    }, 
+    {
+      "Topic_Name": "business", 
+      "Data_Weight": 10.8945
+    }, 
+    {
+      "Topic_Name": "jobs companies", 
+      "Data_Weight": 10.8945
+    }
+  ], 
+  "Similar_Sites": [
+    "Careerbuilder.com", 
+    "Indeed.com", 
+    "Simplyhired.com", 
+    "Hotjobs.yahoo.com", 
+    "Dice.com", 
+    "Snagajob.com", 
+    "Monsterindia.com", 
+    "Jobster.com", 
+    "Net-Temps.com", 
+    "Employmentguide.com", 
+    "Indeed.com", 
+    "Careerbuilder.com", 
+    "Dice.com", 
+    "Snagajob.com", 
+    "Simplyhired.com", 
+    "Monsterindia.com", 
+    "Jobs.net", 
+    "Beyond.com", 
+    "Quintcareers.com", 
+    "Job-Hunt.org"
+  ], 
+  "Related_Mobile_Apps": {
+    "Google_Play": [
+      {
+        "Name": "CareerOne Job Search", 
+        "url": "https://www.similarweb.com/app/google-play/com.careerone.android.Views/statistics"
+      }, 
+      {
+        "Name": "Military Pay by Military.com", 
+        "url": "https://www.similarweb.com/app/google-play/com.military.militarypay/statistics"
+      }, 
+      {
+        "Name": "Military News by Military.com", 
+        "url": "https://www.similarweb.com/app/google-play/com.military.news/statistics"
+      }, 
+      {
+        "Name": "Monster Job Search", 
+        "url": "https://www.similarweb.com/app/google-play/com.monster.android.Views/statistics"
+      }, 
+      {
+        "Name": "Monster Business", 
+        "url": "https://www.similarweb.com/app/google-play/com.monster.monsterjobs.ecom/statistics"
+      }, 
+      {
+        "Name": "Monster PRC", 
+        "url": "https://www.similarweb.com/app/google-play/com.monster.powerrecruiterchallenge/statistics"
+      }, 
+      {
+        "Name": "Monster University Tour", 
+        "url": "https://www.similarweb.com/app/google-play/com.monster.universitytour/statistics"
+      }, 
+      {
+        "Name": "Wiggle Monster", 
+        "url": "https://www.similarweb.com/app/google-play/com.monster.wigglemonster/statistics"
+      }
+    ], 
+    "App_Store": [
+      {
+        "Name": "Monster Worldwide Events", 
+        "url": "https://www.similarweb.com/app/app-store/1040722866/statistics"
+      }, 
+      {
+        "Name": "Monster Power Recruiter Challenge", 
+        "url": "https://www.similarweb.com/app/app-store/1042533415/statistics"
+      }, 
+      {
+        "Name": "Monster.com Job Search", 
+        "url": "https://www.similarweb.com/app/app-store/388924653/statistics"
+      }, 
+      {
+        "Name": "CareerOne", 
+        "url": "https://www.similarweb.com/app/app-store/409748776/statistics"
+      }, 
+      {
+        "Name": "Monster.com Job Search for iPad", 
+        "url": "https://www.similarweb.com/app/app-store/409983065/statistics"
+      }, 
+      {
+        "Name": "CareerOne.com.au Jobs for iPad", 
+        "url": "https://www.similarweb.com/app/app-store/424547378/statistics"
+      }, 
+      {
+        "Name": "Monster.com Interviews by...", 
+        "url": "https://www.similarweb.com/app/app-store/426634637/statistics"
+      }, 
+      {
+        "Name": "Military News by Military.com", 
+        "url": "https://www.similarweb.com/app/app-store/574344908/statistics"
+      }
+    ]
+  }
+}
