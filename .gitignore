@@ -79,6 +79,8 @@ celerybeat-schedule
 .env
 
 # virtualenv
+
+
 venv/
 ENV/
 
@@ -87,3 +89,6 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+#pycharm
+.idea
