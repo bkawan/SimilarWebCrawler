@@ -22,4 +22,13 @@ class SimilarWebDataToJSONPipeline(object):
 class SimilarWebDataToCSVPipeline(object):
 
     def __init__(self):
-        self.file = csv.writer(open('similarweboutputdata.csv', 'wb'))
+        self.csvwriter = csv.writer(open('similarweboutputdata.csv', 'wb'))
+        self.csvwriter.writerow(['Domain','Global_Rank','Country_Rank''Category_Rank','Main_Category','Sub_Category'])
+    def process_item(self,item,spider):
+        self.csvwriter.writerow([item['Domain'],
+                                 item['Ranks']['Global_Rank']['Rank'],
+                                 item['Ranks']['Country_Rank']['Rank'],
+                                 item['Ranks']['Category_Rank']['Rank'],
+                                 item['Ranks']['Category_Rank']['Main_Category'],
+                                 item['Ranks']['Category_Rank']['Sub_Category']])
+        return item
