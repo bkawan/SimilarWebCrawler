@@ -34,7 +34,6 @@ class SimilarwebSpider(scrapy.Spider):
         # with open('log.html', 'w') as f:
         #     f.write(response.body)
         Traffic_Sources = scrapy.Field()
-        Related_Mobile_Apps = scrapy.Field()
 
         item = SimilarwebscrapperItem()
         item['Domain'] = response.xpath("//span[@class='stickyHeader-nameText']/text()").extract()
@@ -196,8 +195,9 @@ class SimilarwebSpider(scrapy.Spider):
 
         # 5-Mail
         tf5_mail_name = traffic_source_chart_elements[4].xpath("div[2]/div/span/text()").extract()
-        tf5_mail_keys = "Percent"
+        tf5_mail_keys = "Percent"#can be delete
         tf5_mail_value = traffic_source_chart_elements[4].xpath("div[1]/div/div/text()").extract()
+        mail = {'Percent':tf5_mail_value}
 
         # 3-
         tf6_display_name = traffic_source_chart_elements[5].xpath("div[2]/div/a/text()").extract()
@@ -350,20 +350,33 @@ class SimilarwebSpider(scrapy.Spider):
         ###################### Search ########################
         ######### Social #############################
 
-        social_keys = []
-        social_values = []
+        social_keys = []# can be delete
+        social_values = [] # can be delete
 
         tf2_social_elements = response.xpath("//ul[@class='socialList']/li")
+        social_domain_dict_list = []
+        for domain in tf2_social_elements:
+            domain_dict = {}
+            name = domain.xpath("div[1]/a/text()").extract()
+            value = domain.xpath("div[2]/div[2]/text()").extract()
+            domain_dict['Domain'] = str(name[0])
+            domain_dict['Percent'] = self.percent_to_float(value[0])
+            social_domain_dict_list.append(domain_dict)
 
-        for social in tf2_social_elements:
-            name = social.xpath("div[1]/a/text()").extract()
-            value = social.xpath("div[2]/div[2]/text()").extract()
             social_keys.append(name)
             social_values.append(value)
+        social_dict = {"Social": {
+                                "Percent": self.percent_to_float(tf4_social_value[0]),
+                                "Domains": [social_domain_dict_list]
+                                }
 
-        print(social_keys, social_values)
+                          }
+        print("****************** social **************************")
+
+        print(social_dict)
 
         ######### Social #############################
+
 
         date = "/html/body/div[3]/div/div/div[4]/div[2]/div[1]/div[1]/div/div[2]/div[1]/div/svg/g[8]/text/tspan[1]/text()"
         visits = "/html/body/div[3]/div/div/div[4]/div[2]/div[1]/div[1]/div/div[2]/div[1]/div/svg/g[8]/text/tspan[3]/text()"
@@ -409,9 +422,12 @@ class SimilarwebSpider(scrapy.Spider):
 
 
 
+
+
+
         #########  Mobile Apps #############################
 
-        print("****** Mobile Apps *************")
+        print("********************* Related Mobile Apps ***************************")
         mobile_apps = response.xpath("//ul[@class='mobileApps-appList']/li")
         mobile_apps_list = []
         mobile_apps_href = []
@@ -424,6 +440,39 @@ class SimilarwebSpider(scrapy.Spider):
         item['Related_Mobile_Apps'] = mobile_apps_list
         item['Related_Mobile_Apps'] = ""
         print (mobile_apps_list, mobile_apps_href)
+
+
+        ############### Apple Store ########################
+        apple_app_elements = response.xpath("//div[@class='apps-store-group apple']/div/ul/li")
+
+        apple_app_dict_list = []
+
+        for app in apple_app_elements:
+            app_dict = {}
+            app_dict['Name'] = str(app.xpath("a/span[2]/span/text()").extract_first())
+            app_dict["URL"] = str(app.xpath("span/a/@href").extract_first())
+            apple_app_dict_list.append(app_dict)
+
+        print("**********************    APPLE      ****************************************")
+        print(apple_app_dict_list)
+
+        google_app_elements = response.xpath("//div[@class='apps-store-group google']/div/ul/li")
+
+        google_app_dict_list = []
+        for app in google_app_elements:
+            app_dict = {}
+            app_dict['Name'] = str(app.xpath("a/span[2]/span/text()").extract_first())
+            app_dict["URL"] = str(app.xpath("span/a/@href").extract_first())
+            google_app_dict_list.append(app_dict)
+
+        print("**********************       Google      ****************************************")
+        print(google_app_dict_list)
+        item['Related_Mobile_Apps'] = {"Google_Play": google_app_dict_list,
+                                       "App_Store": apple_app_dict_list
+
+                                       }
+        print(item['Related_Mobile_Apps'])
+
 
         #########  Mobile Apps #############################
 
