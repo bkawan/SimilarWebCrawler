@@ -12,7 +12,7 @@ import csv
 class SimilarWebDataToJSONPipeline(object):
 
     def __init__(self):
-        self.file = open('similarweb.jl', 'wb')
+        self.file = open('similarweboutputdata.json', 'wb')
 
     def process_item(self, item, spider):
         line = json.dumps(dict(item)) + "\n"
@@ -22,4 +22,4 @@ class SimilarWebDataToJSONPipeline(object):
 class SimilarWebDataToCSVPipeline(object):
 
     def __init__(self):
-        self.file = csv.writer(open('similarweb.csv', 'wb'))
+        self.file = csv.writer(open('similarweboutputdata.csv', 'wb'))
