@@ -6,6 +6,20 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 
-class SimilarwebscrapperPipeline(object):
+import json
+import csv
+
+class SimilarWebDataToJSONPipeline(object):
+
+    def __init__(self):
+        self.file = open('similarweb.jl', 'wb')
+
     def process_item(self, item, spider):
+        line = json.dumps(dict(item)) + "\n"
+        self.file.write(line)
         return item
+
+class SimilarWebDataToCSVPipeline(object):
+
+    def __init__(self):
+        self.file = csv.writer(open('similarweb.csv', 'wb'))

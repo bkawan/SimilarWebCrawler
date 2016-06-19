@@ -33,6 +33,8 @@ class SimilarwebSpider(scrapy.Spider):
         print response
         # with open('log.html', 'w') as f:
         #     f.write(response.body)
+        Traffic_Sources = scrapy.Field()
+        Related_Mobile_Apps = scrapy.Field()
 
         item = SimilarwebscrapperItem()
         item['Domain'] = response.xpath("//span[@class='stickyHeader-nameText']/text()").extract()
@@ -97,12 +99,18 @@ class SimilarwebSpider(scrapy.Spider):
         item['Topics'] = topic_list_dict
         print("*******************  Topics ************************")
         print(topic_list_dict)
-        print("****************************************************")
+        print("**********************Also Visited Sites ******************************")
         also_visited_webistes_values = {'Domains': [also_visited_webistes_list],
                                         'Total': also_visited_websites_total}
         item['AlsoVisited_Websites'] = also_visited_webistes_values
         print item['AlsoVisited_Websites']
         print(main_category, sub_category, also_visited_webistes_list, topic_list, also_visited_websites_total)#can be delete
+
+        print("***************** Adience Interests ******************************")
+        item['Audience_Interests']=[{'Main_Category': main_category,
+                                     'Sub_Category': sub_category}]
+
+        print (item['Audience_Interests'])
 
         print ("************************** Engagement *******************************")
 
@@ -132,7 +140,37 @@ class SimilarwebSpider(scrapy.Spider):
         print(item['Engagement'])
 
 
-        print("*******************")
+        ######################## Traffic By Countires ##################################
+        print("******************* Traffic By Countries ***************************************")
+        traffic_countries_keys = [] # can be delete
+        traffic_countries_values = [] # can be delete
+        traffic_total_countries_dict = {}
+        traffic_countries_list_dict =[]
+        "[[u'United States'], [u'India'], [u'Canada'], [u'United Kingdom'], [u'Philippines'], []], [[u'80.04%'], [u'4.46%'], [u'1.53%'], [u'1.19%'], [u'1.00%'], []])"
+        for countries in response.xpath("//div[@id='geo-countries-accordion']/div"):
+            key = countries.xpath("div/span/a/text()").extract()
+            value = countries.xpath("div/span/span/text()").extract()
+            countries_dict = {}
+            if key:
+                traffic_countries_keys.append(str(key[0]))# can be delete
+                countries_dict['Country'] = str(key[0])
+
+            if value:
+                traffic_countries_values.append(self.percent_to_float(value[0]))# can be delete
+                countries_dict['Percent'] = self.percent_to_float(value[0])
+
+            traffic_countries_list_dict.append(countries_dict)
+            traffic_countries_total = countries.xpath("button/text()").extract()
+            if traffic_countries_total:
+                traffic_total_countries_dict['Total_Countries'] = self.number_only(traffic_countries_total[0])
+        item['Traffic_By_Countries'] = [traffic_total_countries_dict,traffic_countries_list_dict]
+
+        print (item['Traffic_By_Countries'])
+
+
+        ####################### Similar Web URL ####################################
+        print("************** Similar Web URL ***************************")
+        item['Similar_Web_URL'] = response.url
 
 
         traffic_source_chart_elements = response.xpath("//ul[@class='trafficSourcesChart-list']/li")
@@ -339,29 +377,6 @@ class SimilarwebSpider(scrapy.Spider):
         print(">>>>>>>>>>>>>>>>>>>")
 
 
-        "/html/body/div[3]/div/div/div[4]/div[3]/div[2]/div[2]/article/div/div"
-        "/html/body/div[3]/div/div/div[4]/div[3]/div[2]/div[2]/article/div/div/div[6]/button"
-        traffic_countries_keys = []
-        traffic_countries_values = []
-        traffic_countries_total = ""
-        country = dict()
-
-        for countries in response.xpath("//div[@id='geo-countries-accordion']/div"):
-            traffic_countries_keys.append(countries.xpath("div/span/a/text()").extract())
-            traffic_countries_values.append(countries.xpath("div/span/span/text()").extract())
-            traffic_countries_total = countries.xpath("button/text()").extract()
-        traffic_countries_total = self.number_only(traffic_countries_total[0])
-        print("Total", traffic_countries_total)
-
-        for countries in response.xpath("//div[@id='geo-countries-accordion']/div"):
-            country[countries.xpath("div/span/a/text()").extract_first()] = countries.xpath(
-                "div/span/span/text()").extract_first()
-
-        dict1 = dict()
-        print("________")
-        dict1['country'] = country
-        print (dict1)
-        print("________")
 
         ############## Website content #############
 
@@ -407,6 +422,7 @@ class SimilarwebSpider(scrapy.Spider):
             mobile_apps_href.append(response.urljoin(href[0]))
 
         item['Related_Mobile_Apps'] = mobile_apps_list
+        item['Related_Mobile_Apps'] = ""
         print (mobile_apps_list, mobile_apps_href)
 
         #########  Mobile Apps #############################

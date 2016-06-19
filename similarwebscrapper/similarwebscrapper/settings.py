@@ -76,9 +76,12 @@ NEWSPIDER_MODULE = 'similarwebscrapper.spiders'
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'similarwebscrapper.pipelines.SomePipeline': 300,
-#}
+ITEM_PIPELINES = {
+   # 'similarwebscrapper.pipelines.SomePipeline': 300,
+    'similarwebscrapper.pipelines.SimilarWebDataToJSONPipeline': 300,
+    'similarwebscrapper.pipelines.SimilarWebDataToCSVPipeline': 300,
+
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
