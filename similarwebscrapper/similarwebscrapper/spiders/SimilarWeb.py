@@ -15,8 +15,8 @@ class SimilarwebSpider(scrapy.Spider):
     name = "similarweb"
     allowed_domains = ["similarweb.com"]
     start_urls = [
-        "https://www.similarweb.com/website/monster.com"
-        # "file:///Users/BIKESHKAWAN/Development/phunka/GitHub/SimilarWebCrawler/similarwebscrapper/log.html"
+        # "https://www.similarweb.com/website/monster.com"
+        "file:///Users/BIKESHKAWAN/Development/phunka/GitHub/SimilarWebCrawler/similarwebscrapper/log.html"
 
     ]
 
