@@ -1,0 +1,3 @@
+# SimilarWebCrawler
+
+$ scrapy crawl similarweb
