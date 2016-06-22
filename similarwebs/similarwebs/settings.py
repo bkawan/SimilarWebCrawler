@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for similarwebcrawlerusingregx project
+# Scrapy settings for similarwebs project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -9,14 +9,14 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'similarwebcrawlerusingregx'
+BOT_NAME = 'similarwebs'
 
-SPIDER_MODULES = ['similarwebcrawlerusingregx.spiders']
-NEWSPIDER_MODULE = 'similarwebcrawlerusingregx.spiders'
+SPIDER_MODULES = ['similarwebs.spiders']
+NEWSPIDER_MODULE = 'similarwebs.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'similarwebcrawlerusingregx (+http://www.yourdomain.com)'
+#USER_AGENT = 'similarwebs (+http://www.yourdomain.com)'
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS=32
@@ -44,13 +44,13 @@ NEWSPIDER_MODULE = 'similarwebcrawlerusingregx.spiders'
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'similarwebcrawlerusingregx.middlewares.MyCustomSpiderMiddleware': 543,
+#    'similarwebs.middlewares.MyCustomSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    'similarwebcrawlerusingregx.middlewares.MyCustomDownloaderMiddleware': 543,
+#    'similarwebs.middlewares.MyCustomDownloaderMiddleware': 543,
 #}
 
 # Enable or disable extensions
@@ -62,8 +62,9 @@ NEWSPIDER_MODULE = 'similarwebcrawlerusingregx.spiders'
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'similarwebcrawlerusingregx.pipelines.SimilarWebDataToJson': 300,
-    'similarwebcrawlerusingregx.pipelines.SimilarWebDataToCsv': 300,
+   'similarwebs.pipelines.SimilarWebDataToCsv': 300,
+    'similarwebs.pipelines.SimilarWebDataToJson': 300,
+    'similarwebs.pipelines.SimilarWebDataToSingleJson':300
 
 }
 
