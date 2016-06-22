@@ -13,8 +13,9 @@ import csv
 import codecs
 
 
-json_path = "/Users/BIKESHKAWAN/Development/phunka/similarwebs/json/"
-csv_path = "/Users/BIKESHKAWAN/Development/phunka/similarwebs/csv/"
+
+json_path = "/Users/bikeshkawan/Development/phunka/GitHub/SimilarWebCrawler/similarwebs/json/"
+csv_path = "/Users/bikeshkawan/Development/phunka/GitHub/SimilarWebCrawler/similarwebs/csv/"
 class SimilarWebDataToSingleJson(object):
 
     def __init__(self):

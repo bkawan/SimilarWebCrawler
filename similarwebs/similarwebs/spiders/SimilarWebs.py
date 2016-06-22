@@ -59,7 +59,8 @@ class SimilarwebsSpider(scrapy.Spider):
         if not self.args:
             next_url = self.base_url + self.url.next_url().next()
 
-            yield scrapy.Request(next_url,self.parse_website)
+            yield scrapy.Request(next_url,self.parse_website,dont_filter=True)
+            yield scrapy.Request(next_url)
         else:
             print("****************")
             print(response.url)
@@ -69,12 +70,12 @@ class SimilarwebsSpider(scrapy.Spider):
 
 
     def parse_website(self, response):
+        html_path = "/Users/bikeshkawan/Development/phunka/GitHub/SimilarWebCrawler/similarwebs/html/"
         self.driver.get(response.url)
 
         response = TextResponse(url=response.url, body=self.driver.page_source, encoding='utf-8')
 
-        # with open('/Users/BIKESHKAWAN/Development/phunka/similarwebs/html/hamrobazar.html','wb') as data:
-        #     data.write(response.body)
+
 
 
         # print(response.xpath("//html").extract())
@@ -100,6 +101,11 @@ class SimilarwebsSpider(scrapy.Spider):
         print(website_overview_data.keys())
         print(website_overview_data['overview'])
         print("****************")
+
+        domain_name = website_overview_data['overview']['RedirectUrl']
+
+        with open('{}{}.html'.format(html_path, domain_name), 'wb') as data:
+            data.write(response.body)
 
 
 
@@ -133,7 +139,6 @@ class SimilarwebsSpider(scrapy.Spider):
         search_percent = website_overview_data['overview']['TrafficSources']['Search']
         social_percent = website_overview_data['overview']['TrafficSources']['Social']
         referrals_percent= website_overview_data['overview']['TrafficSources']['Referrals']
-        domain_name = website_overview_data['overview']['RedirectUrl']
 
         bounce_rate = website_overview_data['overview']['Engagements']['BounceRate']
         bounce_rate = self.percent_to_float(bounce_rate)
