@@ -1,3 +1,5 @@
+
+
 # SimilarWebCrawler
 
 
@@ -12,4 +14,8 @@ $ scrapy crawl similarweb
 
 parsing js variable Sw.preloadedData from url which contain all the necessary data
 
+<<<<<<< HEAD
 $ scrapy crawl SimilarWebCrawlerUsingRegx
+=======
+$ scrapy crawl SimilarWebCrawlerUsingRegx
+>>>>>>> 2c1b734c760739408f4978dbd752dec207c6dd0e
