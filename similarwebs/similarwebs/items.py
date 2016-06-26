@@ -12,3 +12,8 @@ class SimilarwebsItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     Overview = scrapy.Field()
+
+class SimilarwebsErrorItem(scrapy.Item):
+    Error = scrapy.Field()
+
+

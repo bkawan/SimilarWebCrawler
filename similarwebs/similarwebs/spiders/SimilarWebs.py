@@ -12,6 +12,7 @@ import locale
 import sys
 from decimal import  Decimal, ROUND_HALF_UP
 from similarwebs.items import SimilarwebsItem
+from similarwebs.items import SimilarwebsErrorItem
 
 
 
@@ -27,7 +28,7 @@ class SimilarwebsSpider(scrapy.Spider):
 
         # "file:///Users/BIKESHKAWAN/Development/phunka/similarwebs/csv/hamrobazar.html"
 
-    ]
+]
     url = GetDomains()
     base_url ="https://www.similarweb.com/website/"
 
@@ -104,16 +105,16 @@ class SimilarwebsSpider(scrapy.Spider):
 
         domain_name = website_overview_data['overview']['RedirectUrl']
 
-        with open('{}{}.html'.format(html_path, domain_name), 'wb') as data:
-            data.write(response.body)
 
+        with open('{}{}.html'.format(html_path,domain_name), 'wb') as data:
+            data.write(response.body)
 
 
         similar_web_url= response.url
 
         global_rank = website_overview_data['overview']['GlobalRank'][0]
-
         category_rank = website_overview_data['overview']['CategoryRank'][0]
+
 
         country_rank = website_overview_data['overview']['CountryRanks'].values()[0][0]
 
@@ -163,8 +164,11 @@ class SimilarwebsSpider(scrapy.Spider):
             network_dict['Percent'] = self.float_limit_4(self.getIndex(network, 2))
             top_ad_networks_dict_list.append(network_dict)
         category = website_overview_data['overview']['Category']
-        main_category = category.split("/")[0]
-        sub_category = category.split("/")[1]
+        main_category = self.getIndex(category.strip().split("/"),0)
+        sub_category = self.getIndex(category.strip().split("/"),1)
+
+
+
 
 
 
@@ -176,7 +180,8 @@ class SimilarwebsSpider(scrapy.Spider):
         description = str(response.xpath("//div[@class='analysis-descriptionText']/text()").extract_first())
 
         ranking_items_elements = response.xpath("//div[@class='rankingItems']")
-        country_rank_name = ranking_items_elements.xpath("div[2]/div/div[1]/a/text()").extract()
+        country_rank_name = ranking_items_elements.xpath("div[2]/div/div[1]/a/text()").extract_first()
+
 
         ######################## Traffic By Countires ##################################
         print("******************* Traffic By Countries ***************************************")
@@ -272,6 +277,9 @@ class SimilarwebsSpider(scrapy.Spider):
 
 
         audience_interests_category = response.xpath("//a[@class='audienceCategories-itemLink']/text()").extract()
+
+        audience_interests_main_category="Null"
+        audience_interests_sub_category = "Null"
         try:
             if audience_interests_category:
                 audience_interests_main_category = self.getIndex(audience_interests_category,0).split(">")[0]
@@ -279,6 +287,7 @@ class SimilarwebsSpider(scrapy.Spider):
         except:
             audience_interests_main_category = "Null"
             audience_interests_sub_category = "Null"
+
 
         also_visited_webistes_elements = audience_interests_elements.xpath("div[2]/section[2]/div[1]/div")
         also_visited_websites_list = []
@@ -438,6 +447,8 @@ class SimilarwebsSpider(scrapy.Spider):
 
         yield item
 
+
+
     def float(self,string):
         try:
             value = float(string)
@@ -495,6 +506,6 @@ class SimilarwebsSpider(scrapy.Spider):
             else:
                 value = value
         except:
-            value = 'Null'
+            value = None
 
         return value

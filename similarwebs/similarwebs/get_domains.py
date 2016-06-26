@@ -4,7 +4,7 @@ import csv
 
 class GetDomains:
     data = None
-    csv_path = "/Users/BIKESHKAWAN/Development/phunka/similarwebs/csv/"
+    csv_path = "/Users/BIKESHKAWAN/Development/phunka/GitHub/SimilarWebCrawler/similarwebs/csv/"
 
 
     def connect(self):
