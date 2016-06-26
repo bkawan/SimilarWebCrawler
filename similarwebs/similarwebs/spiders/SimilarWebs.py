@@ -71,7 +71,7 @@ class SimilarwebsSpider(scrapy.Spider):
 
 
     def parse_website(self, response):
-        html_path = "/Users/bikeshkawan/Development/phunka/GitHub/SimilarWebCrawler/similarwebs/html/"
+        html_path = "html/"
         self.driver.get(response.url)
 
         response = TextResponse(url=response.url, body=self.driver.page_source, encoding='utf-8')

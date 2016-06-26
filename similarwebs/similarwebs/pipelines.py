@@ -15,8 +15,8 @@ from similarwebs.items import SimilarwebsErrorItem
 from similarwebs.items import SimilarwebsItem
 
 
-json_path = "/Users/bikeshkawan/Development/phunka/GitHub/SimilarWebCrawler/similarwebs/json/"
-csv_path = "/Users/bikeshkawan/Development/phunka/GitHub/SimilarWebCrawler/similarwebs/csv/"
+json_path = "json/"
+csv_path = "csv/"
 class SimilarWebDataToSingleJson(object):
 
     def __init__(self):
